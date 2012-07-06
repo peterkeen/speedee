@@ -7,18 +7,37 @@ class Speedee::App < Sinatra::Base
   set :sessions, true
   set :public_folder, File.expand_path("../public", __FILE__)
 
+  before do
+    @db = Notmuch::Database.open(File.join(ENV['HOME'], 'mail'))
+  end
+
+  after do
+    @db.close
+  end
+
   get '/' do
     send_file File.join(settings.public_folder, 'index.html')
   end
 
-
   get '/api/threads' do
-    [
-      {id: 0, authors: "Pete, Mark, Sarah", subject: "Movie Night", date: "2012/01/01"},
-      {id: 1, authors: "Pete, Mark, Sarah", subject: "Movie Night", date: "2012/02/02"},
-      {id: 2, authors: "Pete, Mark, Sarah", subject: "Movie Night", date: "2012/03/03"},
-      {id: 3, authors: "Pete, Mark, Sarah", subject: "Movie Night", date: "2012/04/04"},
-    ].to_json
+    query = params[:q] || 'tag:inbox'
+    threads = []
+    @db.query(query).search_threads.each do |thread|
+      tags = []
+      thread.tags.each do |tag|
+        tags << tag
+      end
+
+      threads << {
+        id: thread.thread_id,
+        date: thread.newest_date,
+        tags: tags,
+        authors: thread.authors.force_encoding("UTF-8"),
+        subject: thread.subject.force_encoding("UTF-8")
+      }
+    end
+
+    threads.to_json
   end
   
 end
