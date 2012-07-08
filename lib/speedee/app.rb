@@ -20,6 +20,14 @@ class Speedee::App < Sinatra::Base
     send_file File.join(settings.public_folder, 'index.html')
   end
 
+  get '/api/tags' do
+    tags = []
+    @db.all_tags.each do |t|
+      tags << t
+    end
+    tags.to_json
+  end
+
   get '/api/threads' do
     query = params[:q] || 'tag:inbox'
     threads = []
