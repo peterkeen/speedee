@@ -6,6 +6,5 @@ end
 
 module Speedee; end
 
+require 'speedee/config'
 require 'speedee/app'
-
-

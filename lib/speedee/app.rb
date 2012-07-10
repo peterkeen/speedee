@@ -9,7 +9,7 @@ class Speedee::App < Sinatra::Base
   set :public_folder, File.expand_path("../public", __FILE__)
 
   before do
-    @db = Notmuch::Database.open(File.join(ENV['HOME'], 'mail'))
+    @db = Notmuch::Database.open(Speedee::Config.get("database", "path"))
   end
 
   after do
