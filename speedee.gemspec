@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec')
 
   s.add_dependency('sinatra')
+  s.add_dependency('mail')
   
   s.homepage = 'https://github.com/peterkeen/speedee'
 end
