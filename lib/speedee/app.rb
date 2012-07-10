@@ -28,6 +28,17 @@ class Speedee::App < Sinatra::Base
     tags.to_json
   end
 
+  get '/api/searches' do
+    searches = Speedee::Config.get_list(/speedee searches\./)
+    searches.map do |s|
+      val = s.split('=')
+      {
+        'id' => val[0],
+        'search' => val[1]
+      }
+    end.to_json
+  end
+
   get '/api/threads' do
     query = params[:q] || 'tag:inbox'
     threads = []

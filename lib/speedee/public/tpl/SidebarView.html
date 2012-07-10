@@ -1,5 +1,9 @@
 <div class="sidebar-nav well">
   <ul class="nav nav-list">
+    <li class="nav-header">Searches</li>
+    <% _.each(searches, function(search) { %>
+      <li><a href="#search/<%= search.search %>"><%= search.id %></a></li>
+    <% }) %>
     <li class="nav-header">Tags</li>
     <% _.each(tags, function(tag) { %>
       <li><a href="#search/tag:<%= tag %>"><%= tag %></a></li>
