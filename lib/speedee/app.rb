@@ -114,11 +114,7 @@ class Speedee::App < Sinatra::Base
   end
 
   def format_message(message)
-    raw = ""
-    File.open(message.filename, "r:UTF-8") do |f|
-      raw = f.read.encode('UTF-8', invalid: :replace, :undef => :replace, replace: '')
-    end
-    mail_msg = Mail.new(raw)
+    mail_msg = Mail.new(message.filename)
     {
       from: message['From'],
       to: message['To'],
