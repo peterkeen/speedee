@@ -114,12 +114,12 @@ class Speedee::App < Sinatra::Base
   end
 
   def format_message(message)
-    mail_msg = Mail.new(message.filename)
+    mail_msg = Mail.read(message.filename)
     {
       from: message['From'],
       to: message['To'],
       date: message.date,
-      body: mail_msg.body.to_s.gsub("\n", "<br>").encode('UTF-8', invalid: :replace, :undef => :replace, replace: ''),
+      body: mail_msg.body.decoded.encode('UTF-8', :replace => '', :invalid => :replace, :undef => :replace).gsub("\n", "<br>"),
       id: message.message_id
     }
   end
