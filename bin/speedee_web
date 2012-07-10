@@ -5,4 +5,6 @@ require 'speedee'
 
 port = ARGV[0] || 4568
 
+puts "Starting on port #{port}"
+
 Speedee::App.run!(:port => port.to_i)
