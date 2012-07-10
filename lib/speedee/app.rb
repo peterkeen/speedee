@@ -13,7 +13,11 @@ class Speedee::App < Sinatra::Base
   end
 
   after do
-    @db.close
+    @db.close if !@db.nil?
+  end
+
+  error do
+    @db.close if !@db.nil?
   end
 
   get '/' do
