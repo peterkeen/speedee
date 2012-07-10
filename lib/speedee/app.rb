@@ -114,7 +114,7 @@ class Speedee::App < Sinatra::Base
   end
 
   def format_message(message)
-    raw = File.read(message.filename).encode('UTF-8', invalid: :replace, :undef => :replace, replace: '')
+    raw = File.read(message.filename, "r:UTF-8").encode('UTF-8', invalid: :replace, :undef => :replace, replace: '')
     mail_msg = Mail.new(raw)
     {
       from: message['From'],
