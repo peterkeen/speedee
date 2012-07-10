@@ -22,9 +22,13 @@ class Speedee::App < Sinatra::Base
 
   get '/api/tags' do
     tags = []
-    @db.all_tags.each do |t|
-      tags << t
+    begin
+      @db.all_tags.each do |t|
+        tags << t
+      end
+    rescue
     end
+        
     tags.to_json
   end
 
