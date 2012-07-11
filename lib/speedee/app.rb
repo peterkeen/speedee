@@ -130,7 +130,7 @@ class Speedee::App < Sinatra::Base
       body: mail_msg.body.decoded.encode('UTF-8', :replace => '', :invalid => :replace, :undef => :replace).gsub("\n", "<br>"),
       id: message.message_id
     }
-    mail_msg.to_json
+    obj.to_json
   end
   
 end
