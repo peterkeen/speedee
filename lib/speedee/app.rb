@@ -107,12 +107,9 @@ class Speedee::App < Sinatra::Base
   def flatten_replies(root_message)
     puts root_message.message_id
     msgs = [format_message(root_message)]
-    begin
-        root_message.replies.each do |message|
-        puts message.message_id
-        msgs += flatten_replies(message)
-      end
-    rescue RuntimeError
+    root_message.replies.each do |message|
+      puts message.message_id
+      msgs += flatten_replies(message)
     end
     msgs
   end
