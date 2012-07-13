@@ -95,23 +95,12 @@ class Speedee::App < Sinatra::Base
     query = "thread:#{params[:id]}"
 
     messages = []
-    @db.query(query).search_threads.each do |t|
-
-      t.toplevel_messages.each do |message|
-        messages += flatten_replies(message)
-      end
+    q = @db.query(query)
+    q.sort = Notmuch::SORT_OLDEST_FIRST
+    q.search_messages.each do |m|
+      messages << format_message(m)
     end
     return messages.to_json
-  end
-
-  def flatten_replies(root_message)
-    puts root_message.message_id
-    msgs = [format_message(root_message)]
-    root_message.replies.each do |message|
-      puts message.message_id
-      msgs += flatten_replies(message)
-    end
-    msgs
   end
 
   def format_message(message)
